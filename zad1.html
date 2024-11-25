@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zadaci</title>
+</head>
+<body>
+
+</body>
+    <!--<script src="jsFile.js"></script>-->
+    <script>
+        // alert("Welcome")
+
+        /*
+        CONFIRM BOX
+        const a = confirm("Click me!")
+        let x;
+        if (a === true) {
+          x = "you pressed OK!";
+        } else {
+          x = "you pressed cancel!";
+        }
+        document.write(x);
+        */
+
+        /*
+        PROMPT BOX
+        let person = prompt("Please enter your name", "Harry Potter");
+        if (person !== null) {
+          document.write("Hello " + person + "! How are you?")
+        }
+        */
+
+        /* ZADACA 1 (read two numbers from prompt and then add them)
+        let a = prompt("Vnesete vrednost za 'a'")
+        let b = prompt("Vnesete vrednost za 'b'")
+        // by default all variables are string , so we convert to Int
+        a = parseInt(a);
+        b = parseInt(b);
+        if (a > b) {
+          document.write("Max value is " + a);
+        } else {
+          document.write("Max value is " + b);
+        }
+        */
+
+        /* ZADACA 2 - check if leap year
+        let a = prompt ("Vnesete godina")
+        a = parseInt(a);
+        if (a % 4 === 0) {
+          alert(a + " is a leap year");
+        }
+        */
+
+        /* Zadaca 3 - kvadrat
+                     |y
+                II   |      I
+            ---------------------x
+                III  |      IV
+                     |
+        *
+        let x = prompt("X: ");
+        let y = prompt("Y: ");
+
+        x = parseInt(x);
+        y = parseInt(y);
+
+        if (!isNaN(x) && !isNaN(y)){
+          if (x > 0){
+            if (y > 0) document.write("Prv Kvadrant\n");
+            else if (y < 0) document.write("Cetvert Kvadrant\n");
+            else document.write("Poz. x oska \n");
+          }
+          else if (x < 0) {
+            if (y > 0) document.write("Vtor Kvadrant \n");
+            else if (y < 0) document.write("Tret Kvadrant \n");
+            document.write("Neg. x oska");
+          } else {
+            if (y > 0) document.write("Poz. y oska \n");
+            else if (y < 0) document.write("Neg. y oska \n");
+            else document.write("Koord. pocetok \n");
+          }
+        } else {
+          document.write("Ne ste vnesile cel broj!")
+        }
+        */
+
+        /* Zadaca 4 - ispit poeni
+          0-50 -> 5
+          51-60 -> 6
+          61-70 -> 7
+          71-80 -> 8
+          81-90 -> 9
+          91-100 -> 10
+
+
+        let x = prompt("Poeni: ")
+        x = parseInt(x);
+        if (!isNaN(x)) {
+          if (x <= 50) alert(5);
+          else if (x >= 51 && x <= 60) alert(6)
+          else if (x >= 61 && x <= 70) alert(7)
+          else if (x >= 71 && x <= 80) alert(8)
+          else if (x >= 81 && x <= 90) alert(9)
+          else if (x >= 91 && x <= 100) alert(10)
+          else {
+            alert("Error when entering number!")
+          }
+        }
+        */
+
+        /* Zadaca 5 - exponential
+        let x = prompt("Vnesete ja osnovata");
+        let n = prompt("Vnesete ja exponenta");
+
+        x = parseInt(x);
+        n = parseInt(n);
+        let newVal = 1;
+        if (!isNaN(x) && !isNaN(n)) {
+          for (let i = 0; i < n; i++) {
+            newVal *= x;
+          }
+          alert(newVal)
+        } else {
+          alert("Error calculating!")
+        }
+        */
+    </script>
+
+</html>

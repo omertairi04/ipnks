@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bank Transactions</title>
+</head>
+<style>
+  form {
+    display: inline-grid;
+  }
+
+  #toAdd {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+</style>
+<body>
+
+<form id="form">
+  <label>
+    Full Name: <input type="text" id="name">
+  </label>
+  <label>
+    email: <input type="email" id="email">
+  </label>
+  <label>
+    Phone: <input type="tel" id="phone">
+  </label>
+  <label>
+    Password: <input type="password" id="password">
+  </label>
+  <label>
+    Pin: <input type="text" id="pin">
+  </label>
+  <input type="submit" value="Submit">
+</form>
+</body>
+
+<div id="toAdd">
+  <ul id="cards"></ul>
+</div>
+
+<script>
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const validatePhone = (phone) => {
+    const firstDigit = phone[0];
+    if (firstDigit === "+" && phone.length === 12) {
+      return true;
+    } else if (firstDigit === "0" && phone.length === 9) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const validatePassword = (pass) => {
+    const hasUpperCase = /[A-Z]/.test(pass); // check upper case
+    const hasLowerCase = /[a-z]/.test(pass); // check lower case
+    const hasNumber = /\d/.test(pass); // check for numbers
+    const hasSymbol = /[!@#$%^&*(),.?"{}|<>]/.test(pass); // check for symbols
+
+    return hasUpperCase && hasLowerCase && hasNumber && hasSymbol;
+  };
+
+  const validatePin = (pin) => {
+    const regex = /[0-9][0-9][0-9][0-9]/;
+    return regex.test(pin);
+  };
+
+  const generateRandomColor = () => {
+    const letters = "0123456789ABCDEF";
+    let color = "#";
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  };
+
+  const create = (event) => {
+    event.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
+    const password = document.getElementById("password").value;
+    const pin = document.getElementById("pin").value;
+
+    if (name === "" || email === "" || phone === "" || password === "" || pin === "") {
+      alert("All fields should be filled");
+    }
+
+    if (!validateEmail(email)) {
+      alert("Email is not correct!");
+    }
+
+    if (!validatePhone(phone)) {
+      alert("Phone is not correct!");
+    }
+
+    if (!validatePassword(password)) {
+      alert("Password must contain uppercase,lowercase,numbers and symbols");
+    }
+
+    if (!validatePin(pin)) {
+      alert("Pin is not correct");
+    }
+
+    const card = document.createElement("div");
+    card.style.border = "1px solid #ccc";
+    card.style.borderRadius = "10px";
+    card.style.padding = "10px";
+    card.style.margin = "10px 0";
+    card.style.width = "150px";
+    card.style.backgroundColor = generateRandomColor();
+
+    card.innerHTML = `
+      <h3>${name}</h3>
+      <p>Email ${email}</p>
+      <p>Phone: ${phone}</p>
+      <p>PIN: ${pin}</p>
+    `
+    document.getElementById("toAdd").appendChild(card)
+  };
+  document.getElementById("form").addEventListener("submit", create);
+</script>
+
+</html>

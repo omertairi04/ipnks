@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+
+</body>
+<script>
+
+  /*
+  Check if input number is palindrome
+   */
+  /*
+  const reverseString = (str) => {
+    return str.split("").reverse().join();
+  }
+  let palindrome = prompt("Enter a number");
+  while (palindrome.length < 3) {
+    palindrome = prompt("Enter a number with 3 or more digits");
+  }
+
+  const reverse = reverseString(palindrome)
+  console.log(`Rev: ${reverse}`);
+  palindrome = palindrome.split("").join()
+  if (palindrome === reverse) {
+    alert("Yes")
+  } else {
+    alert("No")
+  }
+   */
+
+  /*
+  Return the biggest word in a sentence
+   */
+  /*
+  let sentence = prompt("Enter something")
+  let array = sentence.split(" ")
+  console.log(`ARRAY : ${array}`);
+  let max = array[0]
+  for (let i=0;i<array.length;i++) {
+    if (array[i].length > max.length) {
+      max = array[i]
+    }
+  }
+  alert(`Max is ${max}`)
+  */
+  /*
+  Enter 3 numbers, print the one with the sign
+  */
+  let num1 = prompt("Enter ");
+  let num2 = prompt("Enter ");
+  let num3 = prompt("Enter ");
+
+  const checkSign = (num1, num2, num3) => {
+    if (num1[0] === "-") {
+      alert("Znak e -");
+      return;
+    } else if (num1[0] === "+") {
+      alert("Znak e +");
+      return;
+    }
+    if (num2[0] === "-") {
+      alert("Znak e -");
+      return;
+    } else if (num2[0] === "+") {
+      alert("Znak e +");
+      return;
+    }
+    if (num3[0] === "-") {
+      alert("Znak e -");
+      return;
+    } else if (num3[0] === "+") {
+      alert("Znak e +");
+      return;
+    }
+  };
+  checkSign(num1, num2, num3);
+</script>
+</html>

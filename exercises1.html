@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exercises w/ Javascript & ChatGPT</title>
+</head>
+<body>
+
+</body>
+<script>
+  let takeInput = prompt("Enter something!");
+  // const firstOcc = takeInput.indexOf("code", 7)
+  // const lastOcc = takeInput.lastIndexOf("code")
+  // alert(lastOcc);
+
+  // let sliced = takeInput.slice(4, 11)
+  const splitted = takeInput.split("o");
+  alert(splitted)
+  /*
+    const confirmAction = () => {
+      const a = confirm("Ok");
+      if (a) document.write(`<h1>Confirmed</h1>`)
+      else document.write(`<h1>ERROR!</h1>`)
+    }
+    confirmAction();
+  */
+
+  /*
+  const personalizeGreeting = () => {
+    let firstName = prompt("Enter your name");
+    while (!firstName) {
+      firstName = prompt("Enter your name");
+    }
+    let lastName = prompt("Enter your lastName");
+    while (!lastName) {
+      lastName = prompt("Enter your lastName");
+    }
+    document.write(firstName + " " + lastName);
+  };
+
+  personalizeGreeting();
+  */
+
+  /*
+  const findQuadrant = (x, y) => {
+    if (x > 0 && y > 0) return 1;
+    else if (x < 0 && y > 0) return 2;
+    else if (x < 0 && y < 0) return 3;
+    else if (x > 0 && y < 0) return 4;
+    else {
+      return -1;
+    }
+  };
+  let x = prompt("Enter x");
+  while (!x) x = prompt("Enter x again!");
+  let y = prompt("Enter y");
+  while (!y) y = prompt("Enter y again");
+  const quadrant = findQuadrant(parseFloat(x), parseFloat(y));
+  document.writeln(`Quadrant is ` + quadrant);
+   */
+
+  /*
+    const gradeCalculator = (grade) => {
+      if (grade <= 50) return "Fail";
+      if (grade > 50 && grade <= 60) return "Pass";
+      if (grade > 61 && grade <= 70) return "Average";
+      if (grade > 71 && grade <= 80) return "Good";
+      if (grade > 81 && grade <= 90) return "Very Good";
+      if (grade > 91 && grade <= 100) return "Excellent";
+      else {
+        return "Error";
+      }
+    };
+    let grade = prompt("Enter grade:");
+    const x = gradeCalculator(parseFloat(grade));
+    document.write(`Grade: ` + x);
+  */
+
+
+</script>
+</html>

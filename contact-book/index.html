@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CRUD w/ JS</title>
+</head>
+<style>
+  #addHere {
+    display: flex;
+    flex-wrap: wrap;  /* Allow cards to wrap to the next line if needed */
+    gap: 10px;  /* Add space between the cards */
+  } 
+</style>
+<body>
+<form id="productForm">
+  <label>
+    Name: <input type="text" id="productName" required>
+  </label>
+  <br>
+  <label>
+    Price <input type="text" id="productPrice" required>
+  </label>
+  <br>
+  <label>
+    Table Number <input type="text" id="tableNum" required>
+  </label>
+  <br>
+  <label>
+    Color: <input type="color" id="productColor" required>
+  </label>
+  <br>
+  <div>
+    <label>Soobrakjaj?</label>
+    <div class="sobrjakaj">
+      <label style="display: inline">YES</label>
+      <input type="radio" id="yes" name="soobrakjaj">
+      <label>NO</label>
+      <input type="radio" id="no" name="soobrakjaj">
+    </div>
+  </div>
+  <button type="submit" onclick="addCar()">Add Product</button>
+</form>
+
+<div>
+  <div>
+    <h2>Transactions</h2>
+  </div>
+
+  <div>
+    <h2>Total for paying : <span id="price">0</span></h2>
+  </div>
+
+</div>
+<div class="toAdd" id="toAdd">
+  <ul id="addHere">
+  </ul>
+</div>
+</body>
+
+<script>
+  let smetkiCount = 0;
+
+  const checkTableFormat = (nums) => {
+    const regex = /^[A-Z][A-Z]-[0-9][0-9][0-9][0-9]-[A-Z][A-Z]$/;
+    if (regex.test(nums)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const addCar = (event) => {
+    event.preventDefault(); // Prevents form from submitting and page reload
+
+    const name = document.getElementById("productName").value;
+    const price = document.getElementById("productPrice").value;
+    const color = document.getElementById("productColor").value;
+    const table = document.getElementById("tableNum").value;
+    const yes = document.getElementById("yes");
+    const no = document.getElementById("no");
+
+    // Validation checks
+    if (name === "" || price === "" || table === "" || color === "" || !(yes.checked || no.checked)) {
+      alert("Fill all fields");
+      return;
+    }
+
+    if (checkTableFormat(table)) {
+      alert("Invalid table number format. Expected format: AA-0000-AA");
+      return;
+    }
+
+    if (isNaN(price)) {
+      alert("Enter a valid price");
+      return;
+    }
+
+    // Determine the 'Soobrakjaj' status
+    const soobrakjaj = yes.checked ? "YES" : "NO";
+
+    // Create a new card element
+    const card = document.createElement("div");
+    card.style.border = "1px solid #ccc";
+    card.style.borderRadius = "5px";
+    card.style.padding = "10px";
+    card.style.margin = "10px 0";
+    card.style.width = "150px"
+    card.style.backgroundColor = color; // Set background color to chosen color
+
+    // Set the content of the card
+    card.innerHTML = `
+      <h3>${name}</h3>
+      <p>Price: ${price}</p>
+      <p>Table: ${table}</p>
+      <p>Sobrakjaj: ${soobrakjaj}</p>
+    `;
+
+    // Append the card to the container
+    document.getElementById("addHere").appendChild(card);
+  };
+
+  // Event listener for form submission
+  document.getElementById("productForm").addEventListener("submit", addCar);
+</script>
+
+</html>

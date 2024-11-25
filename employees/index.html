@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employees</title>
+</head>
+<style>
+  #employee-form {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+  }
+
+  #employee-form input {
+    margin: 10px;
+  }
+
+  .btn {
+    margin: 10px;
+    width: 150px;
+  }
+
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+  }
+
+</style>
+<body>
+
+  <div>
+    <h1>Add Employees</h1>
+    <form id="employee-form">
+      <div class="inputs">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name">
+        <label for="email">Email</label>
+        <input type="text" name="email" id="email">
+        <label for="username">UserName</label>
+        <input type="text" name="username" id="username">
+      </div>
+      <input class="btn" type="submit" value="Add Employee">
+    </form>
+  </div>
+
+  <div class="employees">
+    <h1>Current Employees</h1>
+    <div class="cards"></div>
+  </div>
+
+</body>
+<script>
+  const form = document.getElementById('employee-form');
+
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const username = formData.get('username');
+
+    addEmployees(name, email, username);
+
+    console.log(e.target);
+  }
+
+  const addEmployees = (name, email, username) => {
+    const card = document.querySelector('.cards');
+    const employeeCard = document.createElement('div');
+    const employeeName = document.createElement('h2')
+    employeeName.textContent = name;
+    const employeeEmail = document.createElement('h2')
+    employeeEmail.textContent = email;
+    const employeeUsername = document.createElement('h2')
+    employeeUsername.textContent = username;
+
+    employeeCard.appendChild(employeeName)
+    employeeCard.appendChild(employeeEmail)
+    employeeCard.appendChild(employeeUsername)
+
+    employeeCard.style.width = '300px';
+    employeeCard.style.backgroundColor = 'blue';
+    employeeCard.style.height = '300px';
+    employeeCard.style.margin = '10px'
+
+    card.appendChild(employeeCard)
+
+  }
+
+</script>
+</html>

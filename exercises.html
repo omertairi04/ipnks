@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+</body>
+<script>
+  const body = document.body;
+  /*
+  append() -> can append anything, strings or elements
+  appendChild() -> can only append elements
+   */
+  // body.append("Hello World ", "Bye")
+
+  const div = document.createElement("div");
+  // div.innerHTML = "<strong>Hello World!</strong>"
+  /*
+  innerText = "" -> takes/modifies only the text visible in the html
+  textContext = "" -> copy pastes the text from the html(can be visible or not)
+   */
+  const strong = document.createElement("strong")
+  strong.innerText = "Hello World 2"
+  div.append(strong)
+  strong.remove()
+  body.append(div)
+
+</script>
+</html>
