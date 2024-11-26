@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<style>
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 10px;
+  }
+
+  .content > label {
+    margin-bottom: 10px;
+  }
+
+  button {
+    padding: 10px;
+    margin-left: 10px;
+  }
+
+  #names_table {
+    margin-top: 30px;
+    border-collapse: collapse;
+    margin-left: 10px;
+  }
+
+  #names_table th, #names_table td {
+    border: 1px solid #333;
+    padding: 10px;
+    text-align: center;
+  }
+
+</style>
+<body>
+<div class="content">
+  <label for="fullName">
+    Name and surname
+    <input type="text" id="fullName">
+  </label>
+  <label for="email">
+    Email
+    <input type="text" id="email">
+  </label>
+  <label for="age">
+    Age
+    <input type="text" id="age">
+  </label>
+  <label for="username">
+    Username
+    <input type="text" id="username">
+  </label>
+  <label for="password">
+    Password
+    <input type="text" id="password">
+  </label>
+
+  <label for="role">
+    Role
+    <select id="role">
+      <option value="teacher">Teacher</option>
+      <option value="student">Student</option>
+    </select>
+  </label>
+</div>
+<button onclick="submit()">Submit</button>
+
+<p style="margin-left: 10px">Available teachers <span id="numOfTeachers">0</span></p>
+
+<table id="names_table">
+  <tr>
+    <th>Name</th>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Age</th>
+    <th>Role</th>
+    <th>Actions</th>
+  </tr>
+</table>
+
+</body>
+<script>
+  function submit() {
+    const fullName = document.getElementById("fullName").value;
+    const email = document.getElementById("email").value;
+    const age = parseInt(document.getElementById("age").value);
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
+    const role = document.getElementById("role").value;
+
+    if (fullName === "" || email === "" || age === "" || username === "" || password === "") {
+      alert("Please fill in all fields");
+      return;
+    }
+
+    const exists = document.getElementById(username);
+    if (exists) {
+      alert("Username already exists");
+      return;
+    }
+
+    if (!validatePass(password)) {
+      alert("Password must be at least 10 characters, include an uppercase letter, and a number");
+      return;
+    }
+
+    if (role === "teacher" && age < 18) {
+      alert("Teacher must be over 18");
+      return;
+    }
+
+    const table = document.getElementById("names_table");
+    const newRow = document.createElement("tr");
+
+    newRow.style.backgroundColor = role === "teacher" ? "green" : "blue";
+
+    if (role === "teacher") {
+      newRow.innerHTML = `
+      <td>${fullName}</td>
+      <td id="${username}">${username}</td>
+      <td>${email}</td>
+      <td>${age}</td>
+      <td>${role}</td>
+      <td>
+        <button onclick="hireTeacher(this)">Hire</button>
+      </td>
+    `;
+      table.appendChild(newRow);
+
+      if (role === "teacher") {
+        const numOfTeachers = document.getElementById("numOfTeachers");
+        numOfTeachers.innerText = parseInt(numOfTeachers.innerText) + 1;
+      }
+    }
+    else {
+      newRow.innerHTML = `
+      <td>${fullName}</td>
+      <td id="${username}">${username}</td>
+      <td>${email}</td>
+      <td>${age}</td>
+        <td>${role}</td>
+        <td></td>
+      `;
+      table.appendChild(newRow);
+
+    }
+
+  }
+
+  function validatePass(password) {
+    if (password.length < 10) {
+      return false;
+    } else {
+
+      let containsUpperCase = false;
+      let containsNumber = false;
+
+      for (let i = 0; i < password.length; i++) {
+        if (/[A-Z]/.test(password[i])) {
+          containsUpperCase = true;
+        }
+        if (/[0-9]/.test(password[i])) {
+          containsNumber = true;
+        }
+      }
+      return containsUpperCase && containsNumber;
+    }
+  }
+
+  function hireTeacher(button) {
+    const teacher = button.parentElement.parentElement;
+    teacher.style.backgroundColor = "green";
+    button.remove();
+    const numOfTeachers = document.getElementById("numOfTeachers");
+    numOfTeachers.innerText = parseInt(numOfTeachers.innerText) - 1;
+  }
+
+</script>
+</html>
