@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<style>
+  .container {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  .card {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    border: 2px solid black;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  }
+  .card button {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+</style>
+<body>
+<p>Username: <label>
+  <input id="username" type="text">
+</label></p>
+<p>Width: <label>
+  <input id="width" type="text">
+</label></p>
+<p>Height: <label>
+  <input id="height" type="text">
+</label></p>
+<p>Label: <label>
+  <input id="label" type="text">
+</label></p>
+<p>Color: <label>
+  <select id="color">
+    <option>Red</option>
+    <option>Yellow</option>
+    <option>Blue</option>
+    <option>Green</option>
+  </select>
+</label></p>
+<button onclick="submit()">Submit</button>
+
+<div class="container">
+</div>
+
+</body>
+
+<script>
+  function submit() {
+    const username = document.getElementById("username").value;
+    const width = parseInt(document.getElementById("width").value);
+    const height = parseInt(document.getElementById("height").value);
+    let label = document.getElementById("label").value;
+    const color = document.getElementById("color").value;
+    if (username === "" || isNaN(width) || isNaN(height || label === "")) {
+      alert("Please fill all fields");
+      return;
+    }
+    if (width <= 0 || width >= 350 || height <= 0 || height >= 350) {
+      alert("Incorrect values entered");
+      return;
+    }
+
+    label = validateLabel(label);
+
+    const container = document.querySelector(".container");
+
+    const checkCard = document.getElementById(username);
+    if (checkCard !== null) {
+      checkCard.remove();
+    }
+    const card = document.createElement("div");
+    card.id = username;
+    card.className = "card";
+    card.style.display = "inline-block";
+    card.style.backgroundColor = color;
+    card.style.width = `${width}px`;
+    card.style.height = `${height}px`;
+
+    const name = document.createElement("p");
+    name.textContent = username;
+    const lbl = document.createElement("p");
+    lbl.textContent = label;
+
+    const button = document.createElement("button");
+    button.textContent = "Sell";
+    button.style.height = `40px`;
+    button.style.backgroundColor = `whitelbl`;
+
+    button.onclick = () => {
+      card.classList.remove("card");
+    }
+
+    card.appendChild(button);
+    card.appendChild(name);
+    card.appendChild(lbl);
+    container.appendChild(card);
+  }
+
+  function validateLabel(label) {
+    for (let i = 0; i < 10; i++) {
+      label = label.replaceAll(i, "");
+    }
+    return label.toLowerCase();
+  }
+</script>
+
+</html>
