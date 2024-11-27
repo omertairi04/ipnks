@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<style>
+
+
+  input {
+    margin-bottom: 10px;
+  }
+
+  button{
+    width: 100px;
+    height: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .tables {
+    display: flex;
+    gap: 70px;
+    align-items: flex-start;
+  }
+
+  table {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+
+  th, td {
+    border: 1px solid black;
+    padding: 10px;
+  }
+</style>
+<body>
+
+  <div>
+    <label>
+      Name and Surname:
+      <input type="text" id="fullName">
+    </label>
+  </div>
+
+  <div>
+    <label>
+      Item
+      <input type="text" id="itemName">
+    </label>
+  </div>
+
+  <div>
+    <label>
+      Item code
+      <input type="text" id="itemCode">
+    </label>
+  </div>
+
+  <div>
+    <label>
+      Item Description
+      <input type="text" id="itemDescription">
+    </label>
+  </div>
+
+  <div>
+    <label>
+      Price
+      <input type="text" id="itemPrice">
+    </label>
+  </div>
+
+
+  <div>
+    <label>
+      Used
+      <select id="itemUsed">
+        <option value="used">Used</option>
+        <option value="unused">Unused</option>
+      </select>
+    </label>
+  </div>
+  <button onclick="submit()">Add</button>
+
+  <p>Active Elements <span id="active">0</span></p>
+
+  <div class="tables">
+    <table id="used">
+      <tr>
+        <th>Name</th> <th>Item</th> <th>Price</th> <th>Code</th> <th>Number</th> <th>Actions</th>
+      </tr>
+    </table>
+
+    <table id="unused">
+      <tr>
+        <th>Name</th> <th>Item</th> <th>Price</th> <th>Code</th> <th>Number</th> <th>Actions</th>
+      </tr>
+    </table>
+  </div>
+
+</body>
+<script>
+  const active = document.getElementById('active');
+  let activeElements = 0;
+  function submit() {
+    const fullName = document.getElementById('fullName').value;
+    const itemName = document.getElementById('itemName').value;
+    const itemCode = document.getElementById('itemCode').value;
+    const itemDescription = document.getElementById('itemDescription').value;
+    let itemPrice = parseInt(document.getElementById('itemPrice').value);
+    const itemOption = document.getElementById('itemUsed').value;
+
+
+    if (fullName === '' || itemName === '' || itemCode === '' || itemDescription === '' || itemPrice <= 0) {
+      alert('Please fill all fields');
+      return;
+    }
+
+    const itemExists = document.getElementById(itemCode)
+    if (itemExists) {
+      alert('Item already exists');
+      return;
+    }
+
+    let itemNumber = createNumber(itemCode);
+    const table = document.getElementById(itemOption);
+
+    itemPrice *= 1.1;
+    const newRow = document.createElement('tr')
+    newRow.id = itemCode;
+    newRow.innerHTML = `
+      <td>${fullName}</td>
+      <td>${itemName}</td>
+      <td>${itemPrice}</td>
+      <td>${itemCode}</td>
+      <td>${itemNumber}</td>
+      <td><button onclick="sell(this)">Sell</button></td>
+    `
+    activeElements++;
+    active.innerHTML = (activeElements).toString();
+    table.appendChild(newRow);
+
+  }
+
+  function sell(button) {
+    const item = button.parentNode.parentNode;
+    item.style.backgroundColor = 'yellow';
+    button.remove()
+    activeElements--;
+    active.innerHTML = (activeElements).toString();
+  }
+
+  function createNumber(number) {
+    number = number.replaceAll("!","")
+    for (let i=0;i<10;i++) {
+      number = number.replaceAll(i, "");
+    }
+
+    return number;
+  }
+</script>
+
+</html>
