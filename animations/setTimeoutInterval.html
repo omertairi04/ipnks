@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<button id="btn">Click to redirect</button>
+</body>
+<script>
+  // setTimeout: Run code with a time delay
+  // (code to run, time delay in milliseconds
+  let counter = 0;
+  /*
+  setTimeout(() => {
+    counter++;
+    console.log(counter);
+  }, 2000);
+  */
+
+  const timerID = setTimeout(() => {
+      window.location.href = "htp://www.google.com";
+  }, 5000);
+
+  const btn = document.getElementById('btn').addEventListener('click', () => {
+    clearTimeout(timerID);
+    console.log("Redirect canceled");
+  })
+
+  setTimeout(incrementByOne, 2000)
+  function incrementByOne() {
+    counter++;
+    console.log(counter);
+  }
+
+  // setInterval: Repeatedly run code at every time interval
+  // (code to run, time delay in milliseconds
+  const intervalId = setInterval(() => {
+    incrementByOne();
+    if (counter === 10) {
+      clearInterval(intervalId);
+    }
+  }, 1000);
+
+</script>
+</html>

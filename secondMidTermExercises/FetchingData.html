@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+  <div>
+    <h3>Your favorite Pokémon</h3>
+    <label>
+      <input id="pokemon-search" type="text" >
+      <button onclick="fetchData()">Search</button>
+    </label>
+  </div>
+
+</body>
+<script>
+  async function fetchData() {
+    const pokemon = document.getElementById('pokemon-search').value;
+
+    const url = `https://pokeapi.co/api/v2/pokemon/${pokemon}/`;
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+
+      const json = await response.json();
+      console.log(json);
+
+      const pikachuObject = {
+        name: json.name,
+        abilities: json.abilities.map(item => item.ability.name),
+        type: json.types[0].type.name
+      }
+
+      const pieData = [{
+        values: pikachuObject.abilities,
+        lables: []
+      }]
+
+      console.log(pikachuObject);
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+</script>
+
+</html>

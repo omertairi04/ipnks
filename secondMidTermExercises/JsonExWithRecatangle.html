@@ -1,0 +1,117 @@
+<!--
+  Create a webpage that parses a JSON string upon loading. The string always contains a list of objects with information about corresponding attributes.
+Example of a JSON string: '[{"background-color":"red", "width":"100px", "height":"100px"}, {"background-color":"green", "width":"50px", "height":"100px"},
+{"background-color":"blue", "width":"100px", "height":"50px"}]' (10 points)
+
+After loading the JSON string, an element (of your choice, for example a <div>) is generated, which has attribute values from the first object in the array,
+ and is placed immediately below the buttons marked with < and > (30 points).
+  By pressing the left button, a new element (the one on the left in the list) slides in from the left, and the current element slides out to the right and disappears (30 points).
+  By pressing the right button, the same happens, but an element from the right (the one to the right of the currently displayed object in the JSON list) appears (30 points).
+  Note: the last element is considered to be to the left of the first element, and the first element is to the right of the last element.
+
+You can see how the entire process should look in the gif provided below.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js"></script>
+  <title>Title</title>
+</head>
+<style>
+  #container {
+    margin-top: 30px;
+  }
+</style>
+<body>
+  <div id="buttons">
+    <button id="leftButton" onclick="leftButton()"> < </button>
+    <button id="rightButton" onclick="rightButton()"> > </button>
+  </div>
+
+  <div id="container">
+
+  </div>
+
+</body>
+<script>
+  const buttons = document.getElementById('buttons');
+  const lB = document.getElementById('leftButton');
+  const rB = document.getElementById('rightButton');
+  let jsonString = '[{"backgroundColor":"red", "width":"100px", "height":"100px"}, {"backgroundColor":"green", "width":"50px", "height":"100px"}, {"backgroundColor":"blue", "width":"100px", "height":"50px"}]';
+  const container = document.getElementById('container');
+  let i = 0;
+  const json = JSON.parse(jsonString);
+
+  function displayObject(i) {
+    const data = json[i];
+    const obj = document.createElement('div');
+    obj.classList.add('obj');
+    obj.style.width = data.width;
+    obj.style.height = data.height;
+    obj.style.backgroundColor = data.backgroundColor;
+    obj.style.left = `10px`;
+    obj.style.top = `10px`;
+    obj.id = `object`;
+    container.innerHTML = '';
+    container.appendChild(obj);
+  }
+
+  displayObject(i);
+
+  function rightButton() {
+    rB.disabled = true;
+    lB.disabled = true;
+    anime({
+      targets: '#object',
+      translateX: 1200,
+      duration: 1000,
+    })
+
+    setTimeout(() => {
+      rB.disabled = false;
+      lB.disabled = false;
+      if (i === json.length - 1) {
+        i = 0;
+      } else i++;
+      console.log(`i: ${i}`);
+      displayObject(i);
+    }, 1000)
+
+    console.log("CLICKED RIGHT");
+
+  }
+
+  function leftButton() {
+    rB.disabled = true;
+    lB.disabled = true;
+    anime({
+      targets: '#object',
+      translateX: [0, -105],
+      duration: 300,
+    })
+
+    setTimeout(() => {
+      rB.disabled = false;
+      lB.disabled = false;
+      if (i <= 0) {
+        i = json.length - 1;
+      } else i--;
+      console.log(`i: ${i}`);
+      displayObject(i);
+
+      anime({
+        targets: '#object',
+        translateX: [1200, 0],
+        duration: 5000,
+        easing: 'linear',
+      })
+    }, 500)
+
+    console.log("CLICKED LEFT");
+
+  }
+
+</script>
+</html>

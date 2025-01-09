@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js"></script>
+  <title>US Population</title>
+</head>
+<style>
+
+</style>
+<body>
+  <h1>Us Population through the years</h1>
+  <div id="container">
+
+  </div>
+
+</body>
+<script>
+  let populationData =[];
+
+  async function fetchData() {
+    let response = await fetch("https://datausa.io/api/data?drilldowns=Nation&measures=Population");
+    let data = await response.json();
+    populationData = data.data;
+  }
+
+
+  async function displayData() {
+    await fetchData();
+    console.log(`POPULATION:`, populationData);
+
+    const years = populationData.map(d => d.Year);
+    console.log(years);
+
+    const population = populationData.map(d => d.Population);
+    console.log(population);
+
+    const data = [
+      {
+        x: population,
+        y: years,
+        type: 'bar'
+      }
+    ];
+
+    const layout = {
+      title: 'Population Distribution',
+      xaxis: {
+        title: 'Population',
+      },
+      yaxis: {
+        title: 'Years',
+      },
+      bargap: 0.1
+    }
+
+    Plotly.newPlot('container', data, layout);
+  }
+
+  displayData();
+
+</script>
+</html>

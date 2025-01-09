@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<style>
+  .rectangle {
+    position: absolute;
+  }
+</style>
+<body>
+
+  <div class="buttons">
+    <button onclick="generateFirst()">Generate first position</button>
+    <button onclick="generateSecond()">Generate second position</button>
+  </div>
+
+  <div id="container"></div>
+
+</body>
+<script>
+  const container = document.getElementById('container');
+  let x1 = 0;
+  let y1 = 0;
+  let x2 = 0;
+  let y2 = 0;
+
+  function generateFirst() {
+    x1 = parseInt(Math.random() * 100);
+    y1 = parseInt(Math.random() * 100);
+    console.log(`First position - x1: ${x1}, y1: ${y1}`);
+  }
+
+  function generateSecond() {
+    x2 = parseInt(Math.random() * 100 + 300);
+    y2 = parseInt(Math.random() * 100 + 300);
+    console.log(`Second position - x2: ${x2}, y2: ${y2}`);
+
+    const existingRectangle = document.querySelector('.rectangle');
+    if (existingRectangle) {
+      existingRectangle.remove();
+    }
+
+    const left = Math.random() * 2000;
+    const top = Math.random() * 200;
+    console.log(`left: ${left}, top: ${top}`);
+    // Create and style the rectangle
+    const rectangle = document.createElement('div');
+    rectangle.setAttribute('class', 'rectangle');
+    rectangle.style.left = `${x1}px`;
+    rectangle.style.top = `${y1}px`;
+    rectangle.style.width = `${x2 - x1}px`;
+    rectangle.style.height = `${y2 - y1}px`;
+    rectangle.style.left = `${left}px`;
+    rectangle.style.top = `${top}px`;
+    rectangle.style.backgroundColor = `rgb(
+        ${Math.floor(Math.random() * 255)},
+        ${Math.floor(Math.random() * 255)},
+        ${Math.floor(Math.random() * 255)}
+    )`;
+    container.appendChild(rectangle);
+  }
+
+</script>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js"></script>
+  <title>Title</title>
+</head>
+<style>
+  .planets {
+    width: 1500px;
+    background-color: black;
+    height: 800px;
+    margin: 100px auto;
+    display: flex;
+    flex-direction: row;
+  }
+
+  #moon {
+    margin-top: 300px;
+    margin-left: 100px;
+    width: 100px;
+    height: 100px;
+    background-color: gray;
+    border-radius: 50%;
+    position: absolute;
+    top: -50px; /* Adjust this to set the orbit distance */
+    left: 50px; /* Horizontal alignment for the orbit */
+  }
+
+  #earth {
+    margin-top: 300px;
+    margin-left: 600px;
+    width: 140px;
+    height: 140px;
+    background-color: blue;
+    border-radius: 50%;
+    position: relative;
+  }
+
+  p {
+    text-align: center;
+  }
+</style>
+
+<body>
+
+  <div class="planets">
+    <div id="earth">
+      <p>Mirjeta</p>
+      <div id="moon">
+        <p>Omeri</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+<script>
+  let earth = document.getElementById('earth');
+  let moon = document.getElementById('moon');
+
+  anime({
+    targets: earth,
+    easing: 'linear',
+    duration: 5000,
+    loop: true,
+    rotateZ: 360,
+    delay: 0,
+  })
+
+
+
+</script>
+
+</html>

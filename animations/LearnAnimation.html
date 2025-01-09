@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Anime.js Example</title>
+  <style>
+    #staggered-container {
+      display: flex;
+      gap: 10px;
+    }
+
+    #box {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+      margin: 0 auto;  /* Center the box horizontally */
+    }
+
+    #random-container {
+      display: flex;
+      gap: 10px;
+      margin-left: 100px;
+    }
+    .dot {
+      width: 20px;
+      height: 20px;
+      background-color: orange;
+      border-radius: 50%;
+    }
+
+    #text span {
+      text-align: center;
+      display: inline-block;
+      opacity: 0;
+    }
+  </style>
+</head>
+<body>
+<button id="animate-btn">Animate</button>
+<div id="box"></div>
+<br><br><br><br>
+
+<svg width="800" height="800">
+  <path id="motionPath" d="M50 100 Q150 50 250 100 T350 100" fill="none" stroke="black" />
+  <circle id="circle" r="10" fill="red" cx="30" cy="70"></circle>
+</svg>
+
+<div id="staggered-container">
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+  <div class="box"></div>
+</div>
+
+<div id="random-container">
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+  <div class="dot"></div>
+</div>
+
+<h1 id="text">Hello Anime.js!</h1>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js"></script>
+<script>
+
+  anime({
+    targets: '#box', // Select the element to animate
+    translateX: 250, // Move it 250px to the right
+    translateY: 250,
+    rotateX: 360,
+    duration: 4000,  // Animation lasts 1 second
+    easing: 'easeInOutQuad', // Smooth easing function
+    loop: true,
+    delay: 500,
+  });
+
+  let timeline = anime.timeline({
+    easing: 'easeInOutSine',
+    duration: 1000, // Default duration for all animations
+  });
+
+  timeline
+          .add({
+            targets: '#box',
+            translateX: 250, // Move right
+          })
+          .add({
+            targets: '#box',
+            translateY: 100, // Move down
+          })
+          .add({
+            targets: '#box',
+            rotate: 360, // Spin
+          });
+
+  document.getElementById('animate-btn').onclick = function() {
+    anime({
+      targets: '#box',
+      scale: 1.5,  // Increase size by 50%
+      backgroundColor: '#00FF00', // Change color
+      duration: 1000,
+      easing: 'easeInOutQuad',
+    });
+  };
+
+  anime({
+    targets: '#box',
+    keyframes: [
+      { translateX: 100 },   // Move 100px to the right
+      { translateY: 100 },   // Then move 100px down
+      { translateX: 0 },     // Move back to the left
+      { translateY: 0 },     // Move back up
+    ],
+    duration: 3000,          // Total duration for all keyframes
+    easing: 'easeInOutQuad', // Smooth transitions
+  });
+
+
+  anime({
+    targets: '#circle',
+    translateX: anime.path('#motionPath')('x'),
+    translateY: anime.path('#motionPath')('y'),
+    rotate: 360,
+    duration: 4000,
+    easing: 'easeInOutSine',
+    loop: true,
+  });
+
+  anime({
+    targets: '.box',
+    translateY: 100,         // Move down
+    scale: 1.5,             // Enlarge each box
+    easing: 'easeOutExpo',
+    delay: anime.stagger(10), // Delay each animation by 300ms
+    loop: true,
+    margin-left: 1-00px;
+    direction: 'alternate', // Reverse after each loop
+  });
+
+  anime({
+    targets: '.dot',
+    translateX: () => anime.random(-200, 200), // Random X position
+    translateY: () => anime.random(-100, 100), // Random Y position
+    scale: () => anime.random(1, 3),          // Random scale
+    duration: 1000,
+    easing: 'easeInOutSine',
+    loop: true,
+  });
+
+
+  // Wrap each letter in a span for individual animation
+  let textWrapper = document.querySelector('#text');
+  textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span>$&</span>");
+
+  anime({
+    targets: '#text span',
+    translateY: [50, 0],    // Drop in from 50px below
+    opacity: [0, 1],        // Fade in
+    duration: 1000,
+    easing: 'easeOutExpo',
+    delay: anime.stagger(100), // Animate letters one by one
+  });
+
+
+</script>
+</body>
+</html>

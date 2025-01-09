@@ -117,7 +117,7 @@
       return;
     }
 
-    const itemExists = document.getElementById(itemCode)
+    const itemExists = document.getElementById(itemCode) // omer123
     if (itemExists) {
       alert('Item already exists');
       return;
@@ -128,7 +128,7 @@
 
     itemPrice *= 1.1;
     const newRow = document.createElement('tr')
-    newRow.id = itemCode;
+    newRow.id = itemCode; //omer123
     newRow.innerHTML = `
       <td>${fullName}</td>
       <td>${itemName}</td>

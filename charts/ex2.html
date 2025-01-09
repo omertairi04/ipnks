@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <title>Example 2</title>
+</head>
+<body>
+
+<div id="container">
+  <div id="chart-container"></div>
+  <div id="bubble-container"></div>
+</div>
+
+</body>
+<script>
+  const exData = [
+    {
+      ageRange: "18-25",
+      incomeData: [
+        {occupation: "Engineer", avgIncome: 50000, people: 3000},
+        {occupation: "Teacher", avgIncome: 40000, people: 2000},
+        {occupation: "Student", avgIncome: 10000, people: 7000}
+      ]
+    },
+    {
+      ageRange: "26-35",
+      incomeData: [
+        {occupation: "Engineer", avgIncome: 70000, people: 5000},
+        {occupation: "Teacher", avgIncome: 50000, people: 4000},
+        {occupation: "Doctor", avgIncome: 90000, people: 3000},
+        {occupation: "Other", avgIncome: 30000, people: 6000}
+      ]
+    },
+    {
+      ageRange: "36-45",
+      incomeData: [
+        {occupation: "Engineer", avgIncome: 80000, people: 4000},
+        {occupation: "Teacher", avgIncome: 55000, people: 3000},
+        {occupation: "Doctor", avgIncome: 95000, people: 2000},
+        {occupation: "Other", avgIncome: 40000, people: 6000}
+      ]
+    },
+    {
+      ageRange: "46-60",
+      incomeData: [
+        {occupation: "Engineer", avgIncome: 85000, people: 2000},
+        {occupation: "Teacher", avgIncome: 60000, people: 3000},
+        {occupation: "Doctor", avgIncome: 100000, people: 1000},
+        {occupation: "Other", avgIncome: 35000, people: 4000}
+      ]
+    }
+  ];
+
+  const container = document.getElementById("container");
+  const chartContainer = document.getElementById("chart-container");
+  const bubbleContainer = document.getElementById("bubble-container");
+
+  function fillInChart(data) {
+    let labels = [];
+    let values = [];
+
+    for (let i = 0; i < data.length; i++) {
+      labels.push(data[i].ageRange);
+      let totalPeople = data[i].incomeData.reduce((sum, item) => sum + item.people, 0);
+      values.push(totalPeople);
+    }
+
+    let chartData = [{
+      values: values,
+      labels: labels,
+      type: 'pie',
+    }];
+
+    // Layout for the chart
+    let layout = {
+      title: 'Population by Age Range',
+      height: 400,
+      width: 500,
+    };
+
+    Plotly.newPlot(chartContainer, chartData, layout);
+  }
+
+  function fillInBubble(data) {
+    const traces = data.flatMap(group =>
+            group.incomeData.map(income => ({
+              x: [income.occupation],
+              y: [income.avgIncome],
+              mode: 'markers',
+              marker: {
+                size: [income.people],
+                sizemode: 'area',
+                sizeref: 30,
+                color: income.avgIncome
+              },
+              name: `${income.occupation} (${group.ageRange})`
+            }))
+    );
+
+    layout = {
+      title: 'Income Distribution by Occupation',
+      xaxis: { title: "Occupation" },
+      yaxis: { title: "Average Income (USD)" },
+      showlegend: true,
+    }
+
+    Plotly.newPlot(bubbleContainer, chartContainer, layout);
+  }
+
+  fillInChart(exData);
+  fillInBubble(exData);
+</script>
+
+</html>
