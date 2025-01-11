@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js"></script>
+  <title>Title</title>
+</head>
+<style>
+  #container {
+    width: 1900px;
+    height: 1000px;
+  }
+</style>
+<body>
+  <div id="inputs">
+    <textarea id="words" rows="10" cols="20"></textarea>
+  </div>
+  <button id="submit" onclick="submit()">Prodolzhi</button>
+
+  <div id="container">
+
+  </div>
+
+</body>
+<script>
+
+  const input = document.getElementById('inputs');
+  const s = document.getElementById('submit');
+  const container = document.getElementById('container');
+
+  function submit() {
+    input.style.display = 'none';
+    s.style.display = 'none';
+    let words = document.getElementById('words').value;
+    words = words.split('\n');
+    console.log(words);
+
+    words.forEach((word,index) => {
+      const randomPos = getRandomPosition();
+      const randomColor = getRandomColor();
+      console.log(`color: ${randomColor}`);
+      const text = document.createElement('h2');
+      text.innerText = word;
+      text.style.position = 'absolute';
+      text.style.top = `${randomPos.top}px`;
+      text.style.left = `${randomPos.left}px`;
+      text.style.color = `${randomColor}`;
+      text.id = `text${index}`;
+      const container = document.getElementById('container');
+      container.appendChild(text);
+
+      setTimeout(() => {
+        anime({
+          targets: `#text-${index}`, // Use the unique id
+          translateY: -50, // Example animation: moves text up
+          opacity: 0, // Fade out
+          easing: 'easeOutExpo',
+          duration: 5000
+        });
+      }, 5000);
+    })
+  }
+
+  function getRandomPosition() {
+    const container = document.getElementById('container'); // Reference container
+    const containerWidth = container.offsetWidth; // Get container width
+    const containerHeight = container.offsetHeight; // Get container height
+
+    const top = Math.random() * containerHeight; // Generate random top position
+    const left = Math.random() * containerWidth; // Generate random left position
+
+    return { top, left }; // Return top and left as an object
+  }
+
+  function getRandomColor() {
+    return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+  }
+
+</script>
+</html>

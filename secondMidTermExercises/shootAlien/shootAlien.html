@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<style>
+  #container {
+    display: grid;
+    grid-template-columns: 20% 70%;
+    height: 100vh;
+    width: 110vw;
+  }
+
+  .planeArea {
+    width: 100%;
+  }
+  .planeArea img {
+    width: 80%;
+    height: 10%;
+  }
+
+  .alienArea {
+    width: 100%;
+    position: relative;
+  }
+  .alienArea img {
+    width: 120px;
+    height: 120px;
+  }
+
+</style>
+<body>
+
+  <div id="buttons">
+    <button id="down" onclick="moveDown()">Down</button>
+    <button id="up" onclick="moveUp()">Up</button>
+    <button id="shoot" onclick="shoot()">Shoot</button>
+  </div>
+
+  <div id="container">
+    <div class="planeArea">
+      <img id="f15" src="f15.png">
+    </div>
+    <div class="alienArea">
+      <img id="alien" src="alien.png">
+    </div>
+  </div>
+
+</body>
+
+<script>
+  const f15 = document.getElementById('f15');
+  const alien = document.getElementById('alien');
+  let f15Pos = 0;
+  let f15PosY = 0;
+  let alienPosY = 0;
+
+  function moveDown() {
+    f15Pos += 20;
+    f15.style.marginTop = `${f15Pos}px`;
+    f15PosY = f15.style.marginTop;
+    console.log(`Down ${f15Pos}px`);
+  }
+
+  function moveUp() {
+    if (f15Pos < 20) {
+      f15.style.marginTop = `${f15Pos}px`;
+    } else {
+    f15Pos -= 20;
+    f15.style.marginTop = `${f15Pos}px`;
+    f15PosY = f15.style.marginTop;
+    console.log(`UP ${f15Pos}px`);
+    }
+  }
+
+  function generateAlien() {
+    const yPos = Math.floor(Math.random() * 500);
+    const xPos = Math.floor(Math.random() * 500);
+    console.log(`Y POS: ${yPos},  X:POS ${xPos}`);
+
+    alien.style.marginTop = `${yPos}px`;
+    alien.style.marginLeft = `${xPos}px`;
+
+    alienPosY = yPos;
+    console.log(`alien pos ${yPos}`);
+
+  }
+
+  generateAlien();
+
+  function shoot() {
+    const f15Rec= f15.getBoundingClientRect();
+    const alienRec = alien.getBoundingClientRect();
+
+    const isVerticallyInside = f15Rec.top >= alienRec.top && f15Rec.bottom <= alienRec.bottom;
+
+    if (isVerticallyInside) {
+      alien.style.display= 'none';
+    }
+
+  }
+</script>
+</html>

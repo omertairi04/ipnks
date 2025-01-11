@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rick and Morty Animated Chart</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.0/anime.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f9f9f9;
+    }
+    #search-options {
+      margin-bottom: 20px;
+    }
+    #container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+<div id="search-options">
+  <button id="searchAll" onclick="displayAll()">Search for all characters</button>
+  <select name="characters" onchange="displayCharacterData()" id="characters">
+    <option value="showAll">Display All</option>
+  </select>
+</div>
+
+<div id="container"></div>
+
+<script>
+  const select = document.getElementById('characters');
+  let container = document.getElementById('container');
+  let allEpisodes = 0;
+  let characterData = [];
+
+  async function fetchData() {
+    const json = await fetch('https://rickandmortyapi.com/api/character');
+    const response = await json.json();
+    const data = response.results;
+    characterData = data;
+    console.log(characterData);
+    fillInOptions();
+    await displayAll();
+  }
+  fetchData();
+
+  function fillInOptions() {
+    characterData.forEach((character) => {
+      const option = document.createElement('option');
+      option.text = character.name;
+      option.value = character.name;
+      option.id = character.name;
+      select.appendChild(option);
+    });
+  }
+
+  async function displayAll() {
+    // Sort characters by episode count
+    const sortedCharacters = characterData.sort((a, b) => b.episode.length - a.episode.length);
+
+    const charNames = sortedCharacters.map(character => character.name);
+    const episodes = sortedCharacters.map(character => character.episode.length);
+
+    const chartData = [
+      {
+        x: episodes,
+        y: charNames,
+        type: 'bar',
+        orientation: 'h', // Horizontal bar chart
+        marker: {
+          color: 'rgb(100, 150, 200)', // Custom color
+          line: {
+            width: 2,
+            color: 'rgb(80, 120, 160)'
+          }
+        }
+      }
+    ];
+
+    const layout = {
+      title: "Rick and Morty Characters - Episode Appearances",
+      xaxis: {
+        title: 'Number of Episodes'
+      },
+      yaxis: {
+        title: 'Character Names',
+        automargin: true // Prevent name clipping
+      },
+      margin: {
+        l: 120, // Adjust margin for long character names
+        r: 20,
+        t: 40,
+        b: 40
+      },
+      paper_bgcolor: '#f9f9f9', // Chart background color
+      plot_bgcolor: '#ffffff'
+    };
+
+    Plotly.newPlot(container, chartData, layout).then(() => {
+      animateBars();
+    });
+  }
+
+  function animateBars() {
+    // Select all bars in the Plotly chart
+    const bars = document.querySelectorAll('#container .plot .bar rect');
+
+    // Apply anime.js animation to each bar
+    anime({
+      targets: bars,
+      scaleX: [0, 1], // Animate from 0 width to full width
+      easing: 'easeOutElastic(1, .8)', // Elastic easing for a bounce effect
+      duration: 1000, // Duration of the animation
+      delay: anime.stagger(100) // Stagger animation for each bar
+    });
+  }
+
+  function displayCharacterData() {
+    const character = document.getElementById('characters').value;
+    const clickedCharData = characterData.find(char => char.name === character);
+    console.log(clickedCharData);
+    container.innerHTML = '';
+
+    allEpisodes = characterData.reduce((total, char) => total + char.episode.length, 0);
+
+
+    console.log(allEpisodes);
+    const data = [{
+      values: [allEpisodes, clickedCharData.episode.length],
+      labels: [`All Characters' Episodes`, `${character}'s Episodes`],
+      type: 'pie',
+      marker: {
+        colors: ['#66b3ff', '#ff6666'] // Custom colors
+      }
+    }];
+
+    // Chart layout
+    const layout = {
+      title: `${character}'s Episode Contribution`,
+      height: 400,
+      width: 500
+    };
+
+    Plotly.newPlot('container', data, layout);
+  }
+
+
+</script>
+</body>
+</html>
