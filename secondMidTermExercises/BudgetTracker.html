@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Budget Tracker</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+</head>
+<style>
+  #inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+</style>
+<body>
+
+<h1>Buget Tracker</h1>
+
+<div id="inputs">
+  <label>
+    Category: <input type="text" id="category">
+  </label>
+  <label>
+    Amount: <input type="text" id="amount">
+  </label>
+</div>
+
+<div id="buttons">
+  <button onclick="addExpense()">Add Expense</button>
+  <button onclick="showPieChart()">Show Pie Chart</button>
+</div>
+
+<ul id="list">
+</ul>
+
+<div id="container">
+
+</div>
+
+</body>
+<script>
+
+  const listItems = [];
+
+
+  function addExpense() {
+    const category = document.getElementById('category').value;
+    const amount = parseFloat(document.getElementById('amount').value);  // Convert to number
+
+    if (isNaN(amount)) {
+      alert("Please enter a valid amount");
+      return; // Exit if amount is not a valid number
+    }
+
+    const exists = listItems.find(item => item.category === category);
+
+    if (exists) {
+      // If the category exists, update the amount
+      exists.amount += amount;
+    } else {
+      // Otherwise, add the new item
+      const item1 = {
+        category: category,
+        amount: amount,
+      };
+      listItems.push(item1);
+    }
+
+    addListItems(); // Update the displayed list
+  }
+
+
+  function showPieChart() {
+    const amount = listItems.map(item => item.amount)
+    const category = listItems.map(item => item.category);
+    const data = [{
+      values: amount,
+      labels: category,
+      type: 'pie'
+    }]
+
+    const layout = {
+      title: "Budget Tracker",
+      height: 500,
+      width: 500,
+    }
+
+    Plotly.newPlot('container', data, layout);
+  }
+
+  function addListItems() {
+    const list = document.getElementById('list');
+    list.innerHTML = '';
+    listItems.forEach((item) => {
+      const li = document.createElement('li');
+      li.textContent = `${item.category} - ${item.amount}`;
+      list.appendChild(li);
+    })
+  }
+
+</script>
+</html>

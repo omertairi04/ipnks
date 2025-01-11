@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Watch Movie</title>
+</head>
+<style>
+  #container {
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+  }
+
+  .movie-card {
+    width: 250px;
+    height: 250px;
+    border: 1px solid black;
+  }
+
+  #movieForm {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #movieForm button {
+    margin-top: 10px;
+    width: 100px;
+  }
+
+</style>
+<body>
+
+  <h1>Watch list</h1>
+  <div id="inputs">
+    <h2>Add a movie</h2>
+    <div id="movieForm">
+      <label>Title
+        <input type="text" id="title" placeholder="Enter movie title">
+      </label>
+      <label>Genre
+        <input type="text" id="genre" placeholder="Enter movie genre">
+      </label>
+      <label>Status
+        <label>
+          Watched <input type="radio" id="watched" name="status">
+        </label>
+        <label>
+          To Watch<input type="radio" id="toWatch" name="status">
+        </label>
+      </label>
+      <label>Rating
+        <input type="text" id="rating" placeholder="Rate out of 10">
+      </label>
+    <button onclick="createMovie()">Add Movie</button>
+    </div>
+  </div>
+
+  <hr>
+
+  <div id="movies">
+    <h2>Your movies</h2>
+    <div id="filteredMovies">
+      <label> Filter by Status:
+        <select name="filterBy" id="filterBy">
+          <option value="viewAll">View All</option>
+          <option value="watched">Watched</option>
+          <option value="toWatch">To watch</option>
+        </select>
+      </label>
+      <button onclick="filterByStatus()">Filter</button>
+    </div>
+
+    <div id="searchByGenre">
+      <label> Filter by Genre:
+        <input type="text" placeholder="Search by genre" id="filterByGenre">
+      </label>
+      <button onclick="filterByGenre()">Filter</button>
+    </div>
+
+  </div>
+
+  <div id="container">
+
+  </div>
+
+</body>
+<script>
+
+  const container = document.getElementById('container');
+
+  const createdMovies = [];
+
+  function createMovie() {
+
+    const movieObject = {
+      title: document.getElementById('title').value,
+      genre: document.getElementById('genre').value,
+      status: document.querySelector('input[name="status"]:checked')?.id || '',
+      rating: document.getElementById('rating').value,
+    };
+    // Create the movie card
+    const movieCard = document.createElement('div');
+    movieCard.classList.add('movie-card');
+
+    // Add title to the movie card
+    const title = document.createElement('h2');
+    title.innerHTML = `Title: ${movieObject.title}`;
+    movieCard.appendChild(title);
+
+    // Add genre to the movie card
+    const genre = document.createElement('h3');
+    genre.innerHTML = `Genre: ${movieObject.genre}`;
+    movieCard.appendChild(genre);
+
+    // Add status and rating or remove button
+    if (movieObject.status === 'watched') {
+      const rating = document.createElement('h4');
+      rating.innerHTML = `Your Rating: ${movieObject.rating}/10`;
+      movieCard.appendChild(rating);
+    } else {
+      const btn = document.createElement('button');
+      btn.innerHTML = `Remove`;
+      btn.onclick = function () {
+        removeMovie(movieCard);
+      };
+      movieCard.appendChild(btn);
+    }
+
+    // Add the movie object to the array
+    createdMovies.push(movieObject);
+
+    // Append the movie card to the container
+    container.appendChild(movieCard);
+
+    // Clear input fields after creating a movie
+    document.getElementById('title').value = '';
+    document.getElementById('genre').value = '';
+    document.getElementById('rating').value = '';
+    document.querySelectorAll('input[name="status"]').forEach((input) => (input.checked = false));
+
+  }
+
+  function filterByStatus() {
+    const filterSelect = document.getElementById('filterBy');
+    const selectedValue = filterSelect.value;
+
+    container.innerHTML = '';
+
+    console.log(`Selected Filter: ${selectedValue}`);
+
+    if (selectedValue === 'viewAll') {
+      createdMovies.forEach((movie) => {
+        genMovie(movie);
+      })
+      } else if (selectedValue === 'watched') {
+      createdMovies.forEach((movie) => {
+        if (movie.status === 'watched') {
+          genMovie(movie);
+        }
+      })
+    } else if (selectedValue === 'toWatch') {
+      createdMovies.forEach((movie) => {
+        if (movie.status === 'toWatch') {
+          genMovie(movie);
+        }
+      })
+    }
+  }
+
+  function filterByGenre() {
+
+  }
+
+  function removeMovie(obj) {
+    obj.parentNode.removeChild(obj);
+  }
+
+  function genMovie(movie) {
+    const movieObject = {
+      title: movie.title,
+      genre: movie.genre,
+      status: movie.status,
+      rating: movie.rating,
+    };
+
+    const movieCard = document.createElement('div');
+    movieCard.classList.add('movie-card');
+
+    // Add title to the movie card
+    const title = document.createElement('h2');
+    title.innerHTML = `Title: ${movie.title}`;
+    movieCard.appendChild(title);
+
+    // Add genre to the movie card
+    const genre = document.createElement('h3');
+    genre.innerHTML = `Genre: ${movie.genre}`;
+    movieCard.appendChild(genre);
+
+    // Add status and rating or remove button
+    if (movieObject.status === 'watched') {
+      const rating = document.createElement('h4');
+      rating.innerHTML = `Your Rating: ${movie.rating}/10`;
+      movieCard.appendChild(rating);
+    } else {
+      const btn = document.createElement('button');
+      btn.innerHTML = `Remove`;
+      btn.onclick = function () {
+        removeMovie(movieCard);
+      };
+      movieCard.appendChild(btn);
+    }
+    container.appendChild(movieCard);
+  }
+
+</script>
+</html>
