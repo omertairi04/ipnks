@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FF Squares</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+<style>
+  #welcome {
+    text-align: center;
+  }
+
+  #container {
+    margin-top: 50px;
+    background-color: lavender;
+    width: 100%;
+    height: 80vh;
+  }
+</style>
+<body>
+
+  <div id="welcome">
+    <h1>Falling and Fading Squares</h1>
+    <div id="buttons">
+      <button onclick="generateSquares()">Generate Squares</button>
+      <button onclick="resetSquares()">Reset</button>
+    </div>
+  </div>
+
+  <div id="container">
+
+  </div>
+
+
+</body>
+<script>
+  const container = document.getElementById('container');
+  const squares = [];
+
+  function generateSquares() {
+    container.innerHTML = '';
+    const n = numOfSquares(5, 20);
+    for (let i = 0; i < n; i++) {
+      const square = document.createElement('div');
+      square.id = 'square' + i;
+      square.style.width = '100px';
+      square.style.height = '100px';
+      square.style.backgroundColor = generateRandomColor();
+      square.style.position = 'absolute';
+      square.style.top = numOfSquares(130, 150) + 'px';
+      square.style.left = Math.floor(Math.random() * 1800) + 'px';
+      squares.push(square);
+      container.appendChild(square);
+    }
+
+    animateSquares()
+  }
+
+  function resetSquares() {
+    generateSquares();
+  }
+
+  function numOfSquares(min , max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function generateRandomColor() {
+    return `rgb(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)})`;
+  }
+
+  function animateSquares() {
+    squares.forEach((square) => {
+      anime({
+        targets: square,
+        translateY: '700px',
+        opacity: 0,
+        duration: 3000,
+        easing: 'easeInOutQuad',
+        complete: () => {
+          square.style.display = 'none';
+        }
+      })
+    })
+  }
+
+
+</script>
+</html>

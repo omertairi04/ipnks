@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+<style>
+  #container {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+  }
+
+  #boxes {
+    width: 800px;
+    height: 600px;
+    border: 1px solid black;
+  }
+
+  #scoreContainer {
+    background-color: lightgreen;
+    border: 1px solid black;
+    width: 400px;
+  }
+
+</style>
+<body>
+
+  <div id="container">
+    <div id="boxes">
+
+    </div>
+
+    <div id="scoreContainer">
+      <p>Score: <span id="score">0</span></p>
+    </div>
+
+  </div>
+
+</body>
+<script>
+  const json = '[{"id":"1", "dir": "vertical", "width": "87px", "height":"43px", "score": 52, "left":50, "top":180},{"id":"2", "dir": "horizontal", "width": "112px", "height":"48px", "score": 2, "left":140, "top":250},{"id":"3", "dir": "vertical", "width": "47px", "height":"97px", "score": 37, "left":560, "top":380},{"id":"4", "dir": "vertical", "width": "71px", "height":"71px", "score": 150, "left":450, "top":350},{"id":"5", "dir": "horizontal", "width": "76px", "height":"95px", "score": 24, "left":650, "top":15},{"id":"6", "dir": "vertical", "width": "100px", "height":"132px", "score": 73, "left":200, "top":70}]'
+  const data = JSON.parse(json);
+  console.log(data);
+
+  const container = document.getElementById('container');
+  const boxes = document.getElementById('boxes');
+  const score = document.getElementById('score');
+  let currentScore = 0;
+
+  const boxesOnScreen = [];
+
+  function drawBoxes() {
+
+    data.forEach((b) => {
+      const box = document.createElement('div');
+      box.className = 'box';
+      const boxObj = {
+        'id': b.id,
+        'direction': b.dir,
+        'width': b.width,
+        'height': b.height,
+        'score': b.score,
+        'left': b.left,
+        'top': b.top,
+      }
+
+      const randomColor = `rgba(${Math.floor(Math.random() * 256)},
+                          ${Math.floor(Math.random() * 256)},
+                          ${Math.floor(Math.random() * 256)},
+                          ${Math.random().toFixed(2)})`;
+
+      box.id = `box-${boxObj.id}`;
+      box.style.width = boxObj.width;
+      box.style.height = boxObj.height;
+      box.style.position = 'absolute';
+      box.style.left = `${boxObj.left}px`;
+      box.style.top = `${boxObj.top}px`;
+      box.style.backgroundColor = randomColor;
+
+      boxesOnScreen.push(boxObj);
+      boxes.appendChild(box);
+    })
+
+    boxesOnScreen.forEach((b) => {
+      animateObjects(b);
+    });
+
+  }
+
+  function animateObjects(obj) {
+    const boxElement = document.getElementById(`box-${obj.id}`); // Get the actual DOM element
+    const containerWidth = 800; // Game container width
+    const containerHeight = 600; // Game container height
+
+    // Convert width and height to integers
+    const boxWidth = parseInt(obj.width);
+    const boxHeight = parseInt(obj.height);
+    const initialLeft = obj.left;
+    const initialTop = obj.top;
+
+    if (obj.direction === 'horizontal') {
+      anime({
+        targets: boxElement,
+        translateX: [0, Math.min(containerWidth - boxWidth - initialLeft, initialLeft)], // Adjust range to stay within boundaries
+        easing: 'easeInOutSine',
+        duration: 2000, // Adjust duration for smoothness
+        direction: 'alternate', // Move back and forth
+        loop: true,
+      });
+    } else if (obj.direction === 'vertical') {
+      anime({
+        targets: boxElement,
+        translateY: [0, Math.min(containerHeight - boxHeight - initialTop, initialTop)], // Adjust range to stay within boundaries
+        easing: 'easeInOutSine',
+        duration: 2000,
+        direction: 'alternate',
+        loop: true,
+      });
+    }
+  }
+
+  drawBoxes();
+
+
+</script>
+</html>
